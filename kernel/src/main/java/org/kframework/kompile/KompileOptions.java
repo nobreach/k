@@ -1,4 +1,5 @@
 // Copyright (c) 2014-2016 K Team. All Rights Reserved.
+// Copyright (c) 2016 Nobreach Inc. All Rights Reserved.
 package org.kframework.kompile;
 
 import com.beust.jcommander.Parameter;
@@ -28,7 +29,7 @@ public class KompileOptions implements Serializable {
     public OuterParsingOptions outerParsing = new OuterParsingOptions();
 
     // Common options
-    @Parameter(names="--backend", description="Choose a backend. <backend> is one of [coq|java]. Each creates the kompiled K definition.")
+    @Parameter(names="--backend", description="Choose a backend. <backend> is one of [java|prolog]. Each creates the kompiled K definition. Notice that the prolog backend is not functional yet!")
     public String backend = Backends.JAVA;
 
     @Parameter(names="--doc-style", description="Specify a style option for the package 'k.sty' (when '--backend [pdf|latex]' is used) or path to an alternative .css file (when '--backend html' is used).")

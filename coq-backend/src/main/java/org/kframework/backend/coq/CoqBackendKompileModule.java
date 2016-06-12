@@ -2,6 +2,8 @@
 package org.kframework.backend.coq;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.multibindings.MapBinder;
+import org.kframework.kore.compile.Backend;
 import org.kframework.krun.api.io.FileSystem;
 import org.kframework.krun.ioserver.filesystem.portable.PortableFileSystem;
 

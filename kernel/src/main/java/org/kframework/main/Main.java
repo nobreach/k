@@ -133,6 +133,7 @@ public class Main {
     public static Injector getInjector(String tool) {
         ServiceLoader<KModule> kLoader = ServiceLoader.load(KModule.class);
         List<KModule> kModules = new ArrayList<>();
+
         for (KModule m : kLoader) {
             kModules.add(m);
         }
