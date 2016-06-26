@@ -59,41 +59,15 @@ public class PrologBackend implements Backend {
         this.files = files;
         this.globalOptions = globalOptions;
         this.kompileOptions = kompileOptions;
-
-        System.out.println(
-                " _   _        _                         _     \n" +
-                " | \\ | |     | |                       | |    \n" +
-                " |  \\| | ___ | |__  _ __ ___  __ _  ___| |__  \n" +
-                " | . ` |/ _ \\| '_ \\| '__/ _ \\/ _` |/ __| '_ \\ \n" +
-                " | |\\  | (_) | |_) | | |  __/ (_| | (__| | | |\n" +
-                " |_| \\_|\\___/|_.__/|_|  \\___|\\__,_|\\___|_| |_|\n" +
-                "                                              \n" +
-                "                                              ");
     }
 
     /**
      * @param the generic {@link Kompile}
-     * @return the special steps for the Java backend
+     * @return the special steps for the Prolog backend
      */
     @Override
     public Function<Definition, Definition> steps(Kompile kompile) {
-        DefinitionTransformer convertDataStructureToLookup = DefinitionTransformer.fromSentenceTransformer(func((m, s) -> new ConvertDataStructureToLookup(m, false).convert(s)), "convert data structures to lookups");
-
         return d -> (func((Definition dd) -> kompile.defaultSteps().apply(dd)))
-                .andThen(DefinitionTransformer.fromRuleBodyTranformer(RewriteToTop::bubbleRewriteToTopInsideCells, "bubble out rewrites below cells"))
-                .andThen(DefinitionTransformer.fromSentenceTransformer(new NormalizeAssoc(KORE.c()), "normalize assoc"))
-                .andThen(DefinitionTransformer.from(AddBottomSortForListsWithIdenticalLabels.singleton(), "AddBottomSortForListsWithIdenticalLabels"))
-
-                .andThen(DefinitionTransformer.fromSentenceTransformer(new NormalizeAssoc(KORE.c()), "normalize assoc"))
-                .andThen(convertDataStructureToLookup)
-                //.andThen(DefinitionTransformer.fromRuleBodyTranformer(JavaBackend::ADTKVariableToSortedVariable, "ADT.KVariable to SortedVariable"))
-                //.andThen(DefinitionTransformer.fromRuleBodyTranformer(JavaBackend::convertKSeqToKApply, "kseq to kapply"))
-                .andThen(DefinitionTransformer.fromRuleBodyTranformer(NormalizeKSeq.self(), "normalize kseq"))
-                //.andThen(func(dd -> markRegularRules(dd)))
-                //.andThen(DefinitionTransformer.fromSentenceTransformer(new AddConfigurationRecoveryFlags(), "add refers_THIS_CONFIGURATION_marker"))
-                //.andThen(DefinitionTransformer.fromSentenceTransformer(JavaBackend::markSingleVariables, "mark single variables"))
-                .andThen(DefinitionTransformer.from(new AssocCommToAssoc(KORE.c()), "convert assoc/comm to assoc"))
-                .andThen(DefinitionTransformer.from(new MergeRules(KORE.c()), "generate matching automaton"))
-                .apply(d);
+            .apply(d);
     }
 }

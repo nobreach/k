@@ -5,6 +5,9 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import org.kframework.builtin.Sorts;
+import org.kframework.kil.Definition;
+import org.kframework.kil.loader.Context;
+import org.kframework.kore.convertors.KOREtoKIL;
 import org.kframework.main.FrontEnd;
 import org.kframework.utils.BinaryLoader;
 import org.kframework.utils.Stopwatch;
@@ -60,11 +63,12 @@ public class KompileFrontEnd extends FrontEnd {
 
     @Override
     public int run() {
+        String textualKoreDefinition;
+
         if (!options.outerParsing.mainDefinitionFile(files).exists()) {
             throw KEMException.criticalError("Definition file doesn't exist: " +
                     options.outerParsing.mainDefinitionFile(files).getAbsolutePath());
         }
-
         Kompile kompile = new Kompile(options, files, kem, sw);
         CompiledDefinition def = kompile.run(options.outerParsing.mainDefinitionFile(files), options.mainModule(files), options.syntaxModule(files), koreBackend.get().steps(kompile));
         loader.saveOrDie(files.resolveKompiled("compiled.bin"), def);

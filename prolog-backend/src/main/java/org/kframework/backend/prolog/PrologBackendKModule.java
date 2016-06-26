@@ -32,7 +32,9 @@ public class PrologBackendKModule implements KModule {
 
     @Override
     public List<Module> getDefinitionSpecificKRunModules() {
-        return ImmutableList.of();
+
+        return ImmutableList.of(new PrologBackendKrunModule());
+
     }
 
     @Override
